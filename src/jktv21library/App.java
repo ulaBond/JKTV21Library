@@ -5,6 +5,8 @@
  */
 package jktv21library;
 
+
+import entity.Book;
 import java.util.Scanner;
 
 class App {
@@ -14,6 +16,12 @@ class App {
         do {
             System.out.println("функции приложения: ");
             System.out.println("0 - закрыть приложение.");
+            System.out.println("1 - добавить книгу.");
+            System.out.println("2 - добавить читателя.");
+            System.out.println("3 - добавить запись о взятии книги.");
+            System.out.println("4 - добавить запись о возврате книги.");
+            System.out.println("5 - список книг.");
+            System.out.println("6 - список авторов.");
             System.out.println("Выберите номер функции: ");
             int task = scanner.nextInt();
             scanner.nextLine();
@@ -21,6 +29,25 @@ class App {
                 case 0:
                     repeat = false;
                     break;
+                case 1:
+                    System.out.println("1 - добавить книгу.");
+                    Book book = new Book();
+                    break;
+                case 2:
+                    System.out.println("2 - добавить читателя.");
+                    break;
+                case 3:
+                    
+                    break;
+                case 4:
+                    
+                    break;
+                case 5:
+                    
+                    break;
+                case 6:
+                    
+                    break;                    
                 default:
                     System.out.println("Выберите номер функции из списка!");
             }
