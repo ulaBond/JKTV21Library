@@ -7,6 +7,8 @@ package jktv21library;
 
 
 import entity.Book;
+import entity.History;
+import entity.Reader;
 import java.util.Scanner;
 
 class App {
@@ -35,18 +37,20 @@ class App {
                     break;
                 case 2:
                     System.out.println("2 - добавить читателя.");
+                    Reader reader = new Reader();
                     break;
                 case 3:
-                    
+                    System.out.println("3 - добавить запись о взятии книги.");
+                    History history = new History();
                     break;
                 case 4:
-                    
+                    System.out.println("4 - добавить запись о возврате книги.");
                     break;
                 case 5:
-                    
+                    System.out.println("5 - список книг.");
                     break;
                 case 6:
-                    
+                    System.out.println("6 - список авторов.");
                     break;                    
                 default:
                     System.out.println("Выберите номер функции из списка!");
