@@ -1,15 +1,22 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package entity;
 
-/*@author pupil */
-public class Reader {
+/**
+ *
+ * @author pupil
+ */
+public class Author {
     private String firstname;
     private String lastname;
 
-    public Reader() {
+    public Author() {
     }
 
-    public Reader(String firstname, String lastname) {
+    public Author(String firstname, String lastname) {
         this.firstname = firstname;
         this.lastname = lastname;
     }
@@ -32,8 +39,9 @@ public class Reader {
 
     @Override
     public String toString() {
-        return "Reader{" + "firstname=" + firstname + ", lastname=" + lastname + '}';
+        return "Author{" + "firstname=" + firstname + ", lastname=" + lastname + '}';
     }
+
     
     
 }
