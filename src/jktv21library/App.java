@@ -72,9 +72,9 @@ public class App {
                     for (int i = 0; i < books.length; i++) {
                         Book book1 = books[i];
                         System.out.println("*************************");
-                        System.out.printf(i+1+". %s. ", book1.getTitle());
+                        System.out.printf("Название "+i+1+". %s. ", book1.getTitle());
                         for (int j = 0; j < book1.getAuthors().length; j++) {
-                            System.out.printf("%s %s.%n",
+                            System.out.printf("Авторы: "+"%s %s.%n",
                                     book1.getAuthors()[j].getFirstname(),
                                     book1.getAuthors()[j].getLastname());                            
                         }                        
@@ -89,29 +89,39 @@ public class App {
                     int numBook = scanner.nextInt();
                     scanner.nextLine();
                     for (int i = 0; i < books.length; i++) {
-                        if(i == numBook){
-                        Book book1 = books[i];
-                        System.out.println("*************************");
-                        System.out.printf(i+". %s. ", book1.getTitle());
+                        if(i == numBook-1){
+                            Book book1 = books[i];
+                            System.out.println("*************************");
+                            System.out.printf(i+". %s. ", book1.getTitle());
                             for (int j = 0; j < book1.getAuthors().length; j++) {
-                                System.out.printf("%s %s.%n",
-                                        book1.getAuthors()[j].getFirstname(),
-                                        book1.getAuthors()[j].getLastname());                            
-                            } 
-                        }                       
-                    }
-                    System.out.println("Вы будете менять название книги? (yes - 1/no - 0)");
-                    int changeTitle = scanner.nextInt();
-                    scanner.nextLine();
-                    if(changeTitle == 1){
-                        for (int i = 0; i < books.length; i++) {
-                            if(i == numBook-1){
-                                System.out.println("Введите новое название книги: ");
-                                books[i].setTitle(scanner.nextLine());
+                                System.out.printf("%s %s.%n", book1.getAuthors()[j].getFirstname(), book1.getAuthors()[j].getLastname()); 
                             }
-                    }
-                    break;
-                }
+                            System.out.println("Вы будете менять название книги? (yes - 1/no - 0)");
+                            int changeTitle = scanner.nextInt();
+                            scanner.nextLine();
+                            if(changeTitle == 1){                                    
+                                System.out.println("Введите новое название книги: ");
+                                books[i].setTitle(scanner.nextLine()); 
+                            }
+                            System.out.println("Вы будете менять авторов книги? (yes - 1/no - 0)");
+                            int changeAuthors = scanner.nextInt();
+                            scanner.nextLine();
+                            if(changeAuthors == 1){
+                                System.out.println("Сколько авторов: ");
+                                int countAuthorsInBook2 = scanner.nextInt();
+                                scanner.nextLine();
+                                for (int j = 0; j < countAuthorsInBook2; j++) {
+                                    System.out.printf("%s %s.%n",
+                                    book1.getAuthors()[j].getFirstname(),
+                                    book1.getAuthors()[j].getLastname());
+                                    System.out.println("Введите новые данные автора: "); 
+                                    book1.addAuthor(createAuthor());
+                                } 
+                            }      
+                        }
+                    }     
+                
+                    break;                    
                 default:
                     System.out.println("Выберите номер функции из списка!");
             }
