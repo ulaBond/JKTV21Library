@@ -3,7 +3,6 @@ package entity;
 
 import java.util.Arrays;
 
-/* @author pupil */
 public class Book {
     private String title;
     private Author[] authors = new Author[0];
@@ -45,5 +44,4 @@ public class Book {
         newAuthors [newAuthors.length-1] = author;
         this.authors = newAuthors;
     }
-    
 }
