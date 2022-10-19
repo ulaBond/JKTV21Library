@@ -43,6 +43,8 @@ public class App {
             System.out.println("5 - список книг.");
             System.out.println("6 - список читателей.");
             System.out.println("7 - редактировать книгу.");
+            System.out.println("8 - изменить данные читателя.");
+            System.out.println("9 - редактирование книги.");
             System.out.println("Выберите номер функции: ");
             int task = scanner.nextInt();
             scanner.nextLine();
@@ -65,6 +67,7 @@ public class App {
                     break;
                 case 4:
                     System.out.println("4 - добавить запись о возврате книги.");
+                    histories = historyManager.returnBook(histories);
                     break;
                 case 5:
                     System.out.println("5 - список книг.");
@@ -76,44 +79,19 @@ public class App {
                     break;
                 case 7:
                     System.out.println("7 - редактировать книгу.");
-                    System.out.println("Введите номер книги, которую нужно редактировать: ");
-                    int numBook = scanner.nextInt();
-                    scanner.nextLine();
-                    for (int i = 0; i < books.length; i++) {
-                        if(i == numBook-1){
-                            Book book1 = books[i];
-                            System.out.println("*************************");
-                            System.out.printf(numBook+". %s. ", book1.getTitle());
-                            for (int j = 0; j < book1.getAuthors().length; j++) {
-                                System.out.printf("%s %s.%n", book1.getAuthors()[j].getFirstname(), book1.getAuthors()[j].getLastname()); 
-                            }
-                            System.out.println("Вы будете менять название книги? (yes - 1/no - 0)");
-                            int changeTitle = scanner.nextInt();
-                            scanner.nextLine();
-                            if(changeTitle == 1){                                    
-                                System.out.println("Введите новое название книги: ");
-                                books[i].setTitle(scanner.nextLine()); 
-                            }
-                            System.out.println("Вы будете менять авторов книги? (yes - 1/no - 0)");
-                            int changeAuthors = scanner.nextInt();
-                            scanner.nextLine();
-                            if(changeAuthors == 1){
-                                for (int j = 0; j < book1.getAuthors().length; j++) {
-                                    System.out.printf("%s %s.%n",
-                                    book1.getAuthors()[j].getFirstname(),
-                                    book1.getAuthors()[j].getLastname());                               
-                                }   
-                                System.out.println("Сколько авторов: ");
-                                int countAuthorsInBook2 = scanner.nextInt();
-                                scanner.nextLine();
-                                for (int k = 0; k < countAuthorsInBook2; k++) {
-                                //book1.addAuthor(createAuthor());
-                                }
-                            }      
-                        }
-                    }     
-                
-                    break;                    
+                    historyManager.printListReadingBooks(histories);
+                    scanner.nextLine();               
+                    break;
+                case 8:
+                    System.out.println("8 - изменить данные читателя.");
+                    readers = readerManager.changeReader(readers);
+                    scanner.nextLine();               
+                    break;
+                case 9:
+                    System.out.println("9 - редактирование книги.");
+                    readers = readerManager.changeReader(readers);
+                    scanner.nextLine();               
+                    break;
                 default:
                     System.out.println("Выберите номер функции из списка!");
             }

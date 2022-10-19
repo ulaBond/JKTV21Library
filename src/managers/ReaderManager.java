@@ -32,5 +32,35 @@ public class ReaderManager {
             );
         }
     }
-    
+
+    public Reader[] changeReader(Reader[] readers) {
+        System.out.println("Список читателей");
+        this.printListReaders(readers);
+        System.out.print("Выберите номер читателя из списка");
+        int numberReader = scanner.nextInt(); scanner.nextLine();
+        System.out.println("Имя: "+readers[numberReader - 1].getFirstname());
+        System.out.print("Заменить? (y/n)");
+        String task = scanner.nextLine();
+        if("y".equals(task)){
+            System.out.println("Введите новое имя читателя: ");
+            readers[numberReader - 1].setFirstname(scanner.nextLine());
+        }
+        System.out.println("Фамилия: "+readers[numberReader - 1].getFirstname());
+        System.out.print("Заменить? (y/n)");
+        task = scanner.nextLine();
+        if("y".equals(task)){
+            System.out.println("Введите новую фамилию читателя: ");
+            readers[numberReader - 1].setLastname(scanner.nextLine());
+        }
+        System.out.println("Телефон: "+readers[numberReader - 1].getFirstname());
+        System.out.print("Заменить? (y/n)");
+        task = scanner.nextLine();
+        if("y".equals(task)){
+            System.out.println("Введите новый телефон читателя: ");
+            readers[numberReader - 1].setPhone(scanner.nextLine());
+        }
+        System.out.println("Новые данные читателя: "+readers[numberReader - 1].toString());
+        
+        return readers;        
+    }    
 }

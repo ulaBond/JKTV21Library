@@ -38,10 +38,13 @@ public class BookManager {
             System.out.println("*************************");
             System.out.printf("Название "+i+". %s. ", book1.getTitle());
             for (int j = 0; j < book1.getAuthors().length; j++) {
-                System.out.printf("Автор "+j+": %s %s.%n",
+                System.out.printf("Автор "+j+": %s %s.",
                         book1.getAuthors()[j].getFirstname(),
                         book1.getAuthors()[j].getLastname());                            
             }                        
         }
+    }
+    private Book changeBookManager (){
+        return null;        
     }
 }
