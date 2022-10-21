@@ -89,7 +89,7 @@ public class App {
                     break;
                 case 9:
                     System.out.println("9 - редактирование книги.");
-                    readers = readerManager.changeReader(readers);
+                    books = bookManager.changeBook(books);
                     scanner.nextLine();               
                     break;
                 default:

@@ -44,4 +44,20 @@ public class Book {
         newAuthors [newAuthors.length-1] = author;
         this.authors = newAuthors;
     }
+    public void removeAuthor(int numberOfAuthor){
+        //обнуляем указанного автора (по индексу)
+        this.getAuthors()[numberOfAuthor-1]=null;
+        //создаем массив с количеством элементов на 1 меньше
+        Author[] newAuthors = new Author[this.getAuthors().length-1];
+        // в цикле копируем элементы в новый массив не учитывая обнуленную ячейку
+        int j = 0;
+        for (Author author : this.getAuthors()) {
+            if (author != null) {
+                newAuthors[j] = author;
+                j++;
+            }
+        }
+        //копируем ссылку на новый массив в книгу
+        this.setAuthors(newAuthors);
+    }
 }
