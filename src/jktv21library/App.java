@@ -5,9 +5,18 @@ import entity.Author;
 import entity.Book;
 import entity.History;
 import entity.Reader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import managers.BookManager;
+import managers.DataManager;
 import managers.HistoryManager;
 import managers.ReaderManager;
 
@@ -15,7 +24,8 @@ public class App {
     private final Scanner scanner;
     private final BookManager bookManager;
     private final ReaderManager readerManager;
-    private final HistoryManager historyManager;
+    private final HistoryManager historyManager;//final - неизменяемые методы
+    private final DataManager dataManager;
     private Book[] books;
     private Reader[] readers;
     private History[] histories;
@@ -25,9 +35,10 @@ public class App {
         bookManager = new BookManager();
         readerManager = new ReaderManager();
         historyManager= new HistoryManager();
-        books = new Book[0];
+        dataManager = new DataManager();
+        books = dataManager.loadBooksFromFile();  
         readers = new Reader[0];
-        testAddBook();
+        //testAddBook();
         testAddReader();
     }   
     
@@ -55,7 +66,8 @@ public class App {
                     break;
                 case 1:
                     System.out.println("1 - добавить книгу.");
-                    addBook(bookManager.createBook());
+                    addBook(bookManager.createBook());         
+                    dataManager.saveBooksToFile(books);
                     break;
                 case 2:
                     System.out.println("2 - добавить читателя.");
@@ -78,7 +90,7 @@ public class App {
                     readerManager.printListReaders(readers);
                     break;
                 case 7:
-                    System.out.println("7 - редактировать книгу.");
+                    System.out.println("7 - список.");
                     historyManager.printListReadingBooks(histories);
                     scanner.nextLine();               
                     break;
@@ -127,4 +139,6 @@ public class App {
         readers = Arrays.copyOf(this.readers, this.readers.length + 1);
         readers[readers.length - 1] = reader;
     }
+
+    
 }

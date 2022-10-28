@@ -35,7 +35,7 @@ public class BookManager {
     public void printListBooks(Book[] books){
         for (int i = 0; i < books.length; i++) {
             Book book1 = books[i];
-            System.out.println("*************************");
+            System.out.println("************ Список книг *************");
             System.out.printf("Название "+i+1+". %s. ", book1.getTitle());
             for (int j = 0; j < book1.getAuthors().length; j++) {
                 System.out.printf("Автор "+j+1+": %s %s.",
@@ -83,7 +83,7 @@ public Book[] changeBook(Book[] books) {
                         System.out.print("Введите фамилию атора "+(i+1)+": ");
                         newAuthor.setLastname(scanner.nextLine());
                         books[numBookForEdit - 1].addAuthor(newAuthor);
-                    }else if(i < books[numBookForEdit - 1].getAuthors().length){
+                    }else {
                         // изменяем существующих авторов книги
                         System.out.println(i+1+"-й автор: "
                             +books[numBookForEdit - 1].getAuthors()[i].getFirstname()+" "+
