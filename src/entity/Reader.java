@@ -3,11 +3,11 @@ package entity;
 
 import java.io.Serializable;
 
-/*@author pupil */
 public class Reader  implements Serializable  {
     private String firstname;
     private String lastname;
     private String phone;
+
 
     public Reader() {
     }
