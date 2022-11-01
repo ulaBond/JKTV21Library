@@ -2,6 +2,7 @@
 package managers;
 
 import entity.Book;
+import entity.History;
 import entity.Reader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +18,7 @@ import jktv21library.App;
 public class DataManager {
     private final String FILENAME_BOOKS = "books/MyBooks";
     private final String FILENAME_READERS = "books/MyReaders";
+    private final String FILENAME_HISTORIES = "books/MyHistorys";
     private File file;
     public DataManager() {
         File file = new File("books");        
@@ -77,5 +79,32 @@ public class DataManager {
             Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Нет такого класса", ex);
         }        
         return readers;
+    }
+    public void saveHistoriesToFile(History[] histories) {
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(FILENAME_HISTORIES);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(histories);
+            objectOutputStream.flush();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Нет такого файла", ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Ошибка ввода / вывода", ex);
+        }
+    }
+    public History[] loadHistoriesFromFile() {
+        History[] histories = new History[0];
+        try {
+            FileInputStream fileInputStream = new FileInputStream(FILENAME_HISTORIES);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            histories = (History[]) objectInputStream.readObject();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Нет такого файла", ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Ошибка ввода/вывода", ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Нет такого класса", ex);
+        }
+        return histories;
     }
 }

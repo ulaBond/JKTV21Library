@@ -38,6 +38,7 @@ public class App {
         dataManager = new DataManager();
         books = dataManager.loadBooksFromFile();  
         readers = dataManager.loadReadersFromFile();
+        histories = dataManager.loadHistoriesFromFile();
         //testAddBook();
         //testAddReader();
     }   
@@ -53,7 +54,7 @@ public class App {
             System.out.println("4 - добавить запись о возврате книги.");
             System.out.println("5 - список книг.");
             System.out.println("6 - список читателей.");
-            System.out.println("7 - редактировать книгу.");
+            System.out.println("7 - список histories");
             System.out.println("8 - изменить данные читателя.");
             System.out.println("9 - редактирование книги.");
             System.out.println("Выберите номер функции: ");
@@ -77,6 +78,7 @@ public class App {
                 case 3:
                     System.out.println("3 - добавить запись о взятии книги.");
                     addHistories(historyManager.takeOnBook(readers,books));
+                    dataManager.saveHistoriesToFile(histories);
                     break;
                 case 4:
                     System.out.println("4 - добавить запись о возврате книги.");
@@ -91,9 +93,8 @@ public class App {
                     readerManager.printListReaders(readers);
                     break;
                 case 7:
-                    System.out.println("7 - список.");
-                    historyManager.printListReadingBooks(histories);
-                    scanner.nextLine();               
+                    System.out.println("7 - список histories.");
+                    historyManager.printListReadingBooks(histories);               
                     break;
                 case 8:
                     System.out.println("8 - изменить данные читателя.");
@@ -101,8 +102,7 @@ public class App {
                     break;
                 case 9:
                     System.out.println("9 - редактирование книги.");
-                    books = bookManager.changeBook(books);
-                    scanner.nextLine();               
+                    books = bookManager.changeBook(books);                              
                     break;
                 default:
                     System.out.println("Выберите номер функции из списка!");
