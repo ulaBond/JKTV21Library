@@ -96,8 +96,7 @@ public class App {
                     break;
                 case 8:
                     System.out.println("8 - изменить данные читателя.");
-                    readers = readerManager.changeReader(readers);
-                    scanner.nextLine();               
+                    readers = readerManager.changeReader(readers);              
                     break;
                 case 9:
                     System.out.println("9 - редактирование книги.");

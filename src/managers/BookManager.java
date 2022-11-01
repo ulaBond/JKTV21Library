@@ -33,14 +33,16 @@ public class BookManager {
         return author;
     }
     public void printListBooks(Book[] books){
+        System.out.println("************ Список книг *************");
         for (int i = 0; i < books.length; i++) {
             Book book1 = books[i];
-            System.out.println("************ Список книг *************");
+            
             System.out.printf("Название "+i+1+". %s. ", book1.getTitle());
             for (int j = 0; j < book1.getAuthors().length; j++) {
                 System.out.printf("Автор "+j+1+": %s %s.",
                         book1.getAuthors()[j].getFirstname(),
-                        book1.getAuthors()[j].getLastname());                            
+                        book1.getAuthors()[j].getLastname());
+                System.out.println("");
             }                        
         }
     }
