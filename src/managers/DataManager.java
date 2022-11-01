@@ -24,8 +24,7 @@ public class DataManager {
     } 
     
     public void saveBooksToFile(Book[] books){
-        try {
-            
+        try {            
             FileOutputStream fileOutputStream = new FileOutputStream(FILENAME_BOOKS);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(books);
@@ -53,8 +52,7 @@ public class DataManager {
     }
 
     public void saveReadersToFile(Reader[] readers) {
-        try {
-            
+        try {            
             FileOutputStream fileOutputStream = new FileOutputStream(FILENAME_READERS);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(readers);
