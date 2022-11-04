@@ -37,13 +37,14 @@ public class BookManager {
         for (int i = 0; i < books.length; i++) {
             Book book1 = books[i];
             
-            System.out.printf("Название "+i+1+". %s. ", book1.getTitle());
+            System.out.printf(i+1+". %s. ", book1.getTitle());
+            System.out.print("Авторы: ");
             for (int j = 0; j < book1.getAuthors().length; j++) {
-                System.out.printf("Автор "+j+1+": %s %s.",
+                System.out.printf(j+1+": %s %s.",
                         book1.getAuthors()[j].getFirstname(),
-                        book1.getAuthors()[j].getLastname());
-                System.out.println("");
-            }                        
+                        book1.getAuthors()[j].getLastname());                
+            }
+            System.out.println("");                        
         }
     }
 public Book[] changeBook(Book[] books) {
@@ -135,6 +136,28 @@ public Book[] changeBook(Book[] books) {
         int numDeleteAuthor = scanner.nextInt();
         scanner.nextLine();
         book.removeAuthor(numDeleteAuthor);
+        return book;
+    }
+    public Book changeAuthorBook(Book book){
+    
+        for (int i = 0; i < book.getAuthors().length; i++) {            
+            // изменяем существующих авторов книги
+            System.out.println(i+1+"-й автор: "
+                +book.getAuthors()[i].getFirstname()+" "+
+                       book.getAuthors()[i].getLastname());
+            System.out.print("Изменить имя автора? (y/n)");
+            String edit = scanner.nextLine();
+            if(edit.equals("y")){
+                System.out.print("Введите новое имя атора: ");
+                book.getAuthors()[i].setFirstname(scanner.nextLine());
+            }    
+            System.out.print("Изменить фамилию автора? (y/n)");
+            edit = scanner.nextLine();
+            if(edit.equals("y")){
+                System.out.print("Введите новую фамилию атора: ");
+                book.getAuthors()[i].setLastname(scanner.nextLine());
+            }  
+        }
         return book;
     }
 }

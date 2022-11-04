@@ -98,11 +98,13 @@ public class App {
                     break;
                 case 8:
                     System.out.println("8 - изменить данные читателя.");
-                    readers = readerManager.changeReader(readers);              
+                    readers = readerManager.changeReader(readers); 
+                    dataManager.saveReadersToFile(readers);
                     break;
                 case 9:
                     System.out.println("9 - редактирование книги.");
-                    books = bookManager.changeBook(books);                              
+                    books = bookManager.changeBook(books); 
+                    dataManager.saveBooksToFile(books);
                     break;
                 default:
                     System.out.println("Выберите номер функции из списка!");
