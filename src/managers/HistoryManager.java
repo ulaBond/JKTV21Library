@@ -42,6 +42,8 @@ public class HistoryManager {
     }
     public void printListReadingBooks(History[] histories) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        System.out.println("************ Список выданных книг: **************");
+        int kolRead = 0;
         for (int i = 0; i < histories.length; i++) {
             History history = histories[i];
             if(history.getReturnBook() == null){
@@ -53,8 +55,9 @@ public class HistoryManager {
                         ,history.getReader().getLastname()
                         ,history.getReader().getPhone()
                 );
+            kolRead = kolRead++;
             }
-           
+        System.out.println("Всего книг взято из библиотеки: "+kolRead);   
         }        
     }
     public History[] returnBook(History[] histories){
