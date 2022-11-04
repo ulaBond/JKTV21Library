@@ -3,13 +3,29 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+@Entity
 
 public class Book implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//в БД будет автоинкремент в поле Id
+    private Long id;
     private String title;
     private Author[] authors = new Author[0];
 
     public Book() {
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }   
 
     public Book(String title, Author[] authors) {
         this.title = title;
