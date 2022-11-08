@@ -12,9 +12,9 @@ import javax.persistence.Persistence;
 
 /* */
 public class BasaManager {
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("JKTV21LibraryPU");
-    private EntityManager em = emf.createEntityManager();
-    private EntityTransaction tx = em.getTransaction();
+    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("JKTV21LibraryPU");
+    private final EntityManager em = emf.createEntityManager();
+    private final EntityTransaction tx = em.getTransaction();
 
     public void saveBooks(List<Book> books) {
         tx.begin();
@@ -31,6 +31,22 @@ public class BasaManager {
     public List<Book> loadBooks() {
         List<Book> books = (List<Book>) em.createQuery("SELECT b FROM Book b").getResultList();
         return books;
+    }
+    
+    public List<Author> loadAuthors() {
+        List<Author> authors = (List<Author>) em.createQuery("SELECT a FROM Author a").getResultList();
+        return authors;
+    }
+
+    public void saveBook(Book book) {
+        tx.begin();
+        if(book.getId() == null){
+            em.persist(book);
+        }else{
+            em.merge(book);
+        }
+        
+        tx.commit();
     }
      
 }

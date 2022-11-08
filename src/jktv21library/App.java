@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 import managers.BasaManager;
 import managers.BookManager;
+import managers.DataManager;
 import managers.HistoryManager;
 import managers.ReaderManager;
 
@@ -21,18 +22,18 @@ public class App {
     private final HistoryManager historyManager;//final - неизменяемые методы
     private final BasaManager basaManager;
     //private final DataManager dataManager;
-    private List<Book> books;
+    //private List<Book> books;
     private Reader[] readers;
     private History[] histories;
 
     public App() {
-        books = new ArrayList<>();
+        //books = new ArrayList<>();
         scanner = new Scanner(System.in);
         bookManager = new BookManager();
         readerManager = new ReaderManager();
         historyManager= new HistoryManager();
         basaManager= new BasaManager();
-        books = basaManager.loadBooks();
+        //books = basaManager.loadBooks();
         //dataManager = new DataManager();
         //books = dataManager.loadBooksFromFile();  
         //readers = dataManager.loadReadersFromFile();
@@ -65,8 +66,10 @@ public class App {
                     break;
                 case 1:
                     System.out.println("1 - добавить книгу.");
-                    books.add(bookManager.createBook());
-                    basaManager.saveBooks(books);
+                    Book book = bookManager.createBook();
+                    basaManager.saveBook(book);
+                    //books.add(bookManager.createBook());
+                    //basaManager.saveBooks(books);
                     //dataManager.saveBooksToFile(books);
                     break;
                 case 2:
@@ -76,7 +79,7 @@ public class App {
                     break;
                 case 3:
                     System.out.println("3 - добавить запись о взятии книги.");
-                    addHistories(historyManager.takeOnBook(readers,books));
+                    addHistories(historyManager.takeOnBook(readers,basaManager.loadBooks()));
                     //dataManager.saveHistoriesToFile(histories);
                     break;
                 case 4:
@@ -86,7 +89,7 @@ public class App {
                     break;
                 case 5:
                     System.out.println("5 - список книг.");
-                    bookManager.printListBooks(books);
+                    bookManager.printListBooks(basaManager.loadBooks());
                     break;
                 case 6:
                     System.out.println("6 - список читателей.");
@@ -103,7 +106,9 @@ public class App {
                     break;
                 case 9:
                     System.out.println("9 - редактирование книги.");
-                    books = bookManager.changeBook(books); 
+                    //books = bookManager.changeBook(books); 
+                    book = bookManager.changeBook();
+                    basaManager.saveBook(bookManager.changeBook());
                     //dataManager.saveBooksToFile(books);
                     break;
                 default:
@@ -127,19 +132,5 @@ public class App {
         histories = Arrays.copyOf(histories, histories.length+1);
         histories[histories.length-1] = history;
     }
-    
-//    private void testAddBook(){
-//        Book book = new Book();
-//        book.setTitle("Voina i mir");
-//        Author author = new Author("Lev", "Tolstoy");
-//        book.addAuthor(author);
-//        this.books = Arrays.copyOf(this.books, this.books.length + 1);
-//        this.books[this.books.length - 1] = book;
-//    }
-//    private void testAddReader(){
-//        Reader reader = new Reader("Yuliia", "Bond", "1254789");
-//        readers = Arrays.copyOf(this.readers, this.readers.length + 1);
-//        readers[readers.length - 1] = reader;
-//    }
     
 }
