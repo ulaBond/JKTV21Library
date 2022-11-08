@@ -6,6 +6,7 @@ import entity.History;
 import entity.Reader;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Scanner;
 
 public class HistoryManager {
@@ -18,7 +19,7 @@ public class HistoryManager {
        readerManager = new ReaderManager();
        bookManager = new BookManager();
     }
-    public History takeOnBook(Reader[] readers, Book[] books){
+    public History takeOnBook(Reader[] readers, List<Book> books){
          //из списка читателей выбрать читателя
         //их списка книг выбрать книгу
         //инициировать поля History
@@ -26,16 +27,14 @@ public class HistoryManager {
         System.out.println("Список читателей: ");
         readerManager.printListReaders(readers);
         System.out.println("Выберите номер читателя из списка: ");
-        int numberReader = scanner.nextInt();
-        scanner.nextLine();
+        int numberReader = scanner.nextInt(); scanner.nextLine();
         
         System.out.println("Список книг:");
         bookManager.printListBooks(books);
         System.out.println("Выберите номер книги из списка: ");
-        int numberBook = scanner.nextInt();
-        scanner.nextLine();
+        int numberBook = scanner.nextInt(); scanner.nextLine();
         History history = new History();
-        history.setBook(books[numberBook - 1]);
+        history.setBook(books.get(numberBook - 1));
         history.setReader(readers[numberReader - 1]);
         history.setTakeOnBook(new GregorianCalendar().getTime());
         return history;

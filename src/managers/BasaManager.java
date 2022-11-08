@@ -12,24 +12,25 @@ import javax.persistence.Persistence;
 
 /* */
 public class BasaManager {
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("JKTV21LibraryPU");
+    private EntityManager em = emf.createEntityManager();
+    private EntityTransaction tx = em.getTransaction();
 
-    public void saveBooks(Book[] books) {
-        List<Book> listBook = new ArrayList<>();
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JKTV21LibraryPU");
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
+    public void saveBooks(List<Book> books) {
         tx.begin();
-        for (int i = 0; i < books.length; i++){
-            Book book = books[i];
+        for (int i = 0; i < books.size(); i++) {
+            Book book = books.get(i);
             if(book.getId() == null){
                 em.persist(book);
-                for (int j = 0; j < book.getAuthors().length; j++) {
-                    Author author = book.getAuthors()[j];
-                    em.persist(author);                    
-                }
                 break;
-            }            
+            }
         }
-        tx.commit();        
-    }    
+        tx.commit();
+    }  
+
+    public List<Book> loadBooks() {
+        List<Book> books = (List<Book>) em.createQuery("SELECT b FROM Book b").getResultList();
+        return books;
+    }
+     
 }

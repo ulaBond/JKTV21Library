@@ -5,19 +5,12 @@ import entity.Author;
 import entity.Book;
 import entity.History;
 import entity.Reader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import managers.BasaManager;
 import managers.BookManager;
-import managers.DataManager;
 import managers.HistoryManager;
 import managers.ReaderManager;
 
@@ -28,17 +21,18 @@ public class App {
     private final HistoryManager historyManager;//final - неизменяемые методы
     private final BasaManager basaManager;
     //private final DataManager dataManager;
-    private Book[] books;
+    private List<Book> books;
     private Reader[] readers;
     private History[] histories;
 
     public App() {
+        books = new ArrayList<>();
         scanner = new Scanner(System.in);
         bookManager = new BookManager();
         readerManager = new ReaderManager();
         historyManager= new HistoryManager();
         basaManager= new BasaManager();
-        books = new Book[0];
+        books = basaManager.loadBooks();
         //dataManager = new DataManager();
         //books = dataManager.loadBooksFromFile();  
         //readers = dataManager.loadReadersFromFile();
@@ -71,7 +65,7 @@ public class App {
                     break;
                 case 1:
                     System.out.println("1 - добавить книгу.");
-                    addBook(bookManager.createBook());  
+                    books.add(bookManager.createBook());
                     basaManager.saveBooks(books);
                     //dataManager.saveBooksToFile(books);
                     break;
@@ -119,10 +113,10 @@ public class App {
         System.out.println("Chao!");
     }
 
-    private void addBook(Book book){
-        books = Arrays.copyOf(books, books.length+1);
-        books[books.length-1] = book;
-    }
+//    private void addBook(Book book){
+//        books = Arrays.copyOf(books, books.length+1);
+//        books[books.length-1] = book;
+//    }
     
     private void addReader(Reader reader){
         readers = Arrays.copyOf(readers, readers.length+1);
@@ -134,19 +128,18 @@ public class App {
         histories[histories.length-1] = history;
     }
     
-    private void testAddBook(){
-        Book book = new Book();
-        book.setTitle("Voina i mir");
-        Author author = new Author("Lev", "Tolstoy");
-        book.addAuthor(author);
-        this.books = Arrays.copyOf(this.books, this.books.length + 1);
-        this.books[this.books.length - 1] = book;
-    }
-    private void testAddReader(){
-        Reader reader = new Reader("Yuliia", "Bond", "1254789");
-        readers = Arrays.copyOf(this.readers, this.readers.length + 1);
-        readers[readers.length - 1] = reader;
-    }
-
+//    private void testAddBook(){
+//        Book book = new Book();
+//        book.setTitle("Voina i mir");
+//        Author author = new Author("Lev", "Tolstoy");
+//        book.addAuthor(author);
+//        this.books = Arrays.copyOf(this.books, this.books.length + 1);
+//        this.books[this.books.length - 1] = book;
+//    }
+//    private void testAddReader(){
+//        Reader reader = new Reader("Yuliia", "Bond", "1254789");
+//        readers = Arrays.copyOf(this.readers, this.readers.length + 1);
+//        readers[readers.length - 1] = reader;
+//    }
     
 }

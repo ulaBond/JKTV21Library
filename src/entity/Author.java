@@ -6,9 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-@Entity
 
-/* */
+@Entity
 public class Author implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//в БД будет автоинкремент в поле Id
@@ -18,7 +17,12 @@ public class Author implements Serializable {
 
     public Author() {
     }
-
+    
+    public Author(String firstname, String lastname) {
+    this.firstname = firstname;
+    this.lastname = lastname;
+    }
+    
     public Long getId() {
         return id;
     }
@@ -27,8 +31,11 @@ public class Author implements Serializable {
         this.id = id;
     }    
     
-    public Author(String firstname, String lastname) {
-        this.firstname = firstname;
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
         this.lastname = lastname;
     }
 
@@ -40,16 +47,6 @@ public class Author implements Serializable {
         this.firstname = firstname;
     }
 
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-    public void removeAuthor(int numberOfAuthor){
-    }
-    
     @Override
     public String toString() {
         return "Author{" + "firstname=" + firstname + ", lastname=" + lastname + '}';

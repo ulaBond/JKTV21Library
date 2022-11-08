@@ -3,10 +3,20 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 @Entity
 
 public class Book implements Serializable {
@@ -14,9 +24,16 @@ public class Book implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)//в БД будет автоинкремент в поле Id
     private Long id;
     private String title;
-    private Author[] authors = new Author[0];
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<Author> authors;
 
     public Book() {
+        authors = new ArrayList<>();
+    }
+    
+    public Book(String title, List<Author> authors) {
+        this.title = title;
+        this.authors = authors;
     }
 
     public Long getId() {
@@ -27,16 +44,11 @@ public class Book implements Serializable {
         this.id = id;
     }   
 
-    public Book(String title, Author[] authors) {
-        this.title = title;
-        this.authors = authors;
-    }
-
-    public Author[] getAuthors() {
+    public List<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(Author[] authors) {
+    public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
 
@@ -52,29 +64,29 @@ public class Book implements Serializable {
     public String toString() {
         return "Book{"
                 + "title=" + title
-                + ", autors=" + Arrays.toString(authors) 
+               // + ", autors=" + Arrays.toString(authors) 
                 + '}';
     }
 
     public void addAuthor(Author author) {
-        Author[] newAuthors = Arrays.copyOf(authors, authors.length + 1);
-        newAuthors [newAuthors.length-1] = author;
-        this.authors = newAuthors;
+        //Author[] newAuthors = Arrays.copyOf(authors, authors.length + 1);
+        //newAuthors [newAuthors.length-1] = author;
+        this.authors.add(author);
     }
     public void removeAuthor(int numberOfAuthor){
         //обнуляем указанного автора (по индексу)
-        this.getAuthors()[numberOfAuthor-1]=null;
+        Author[] authors = (Author[])this.authors.toArray();
         //создаем массив с количеством элементов на 1 меньше
-        Author[] newAuthors = new Author[this.getAuthors().length-1];
+        Author[] newAuthors = new Author[authors.length-1];
         // в цикле копируем элементы в новый массив не учитывая обнуленную ячейку
         int j = 0;
-        for (Author author : this.getAuthors()) {
+        for (Author author : authors) {
             if (author != null) {
                 newAuthors[j] = author;
                 j++;
             }
         }
         //копируем ссылку на новый массив в книгу
-        this.setAuthors(newAuthors);
+        this.authors = Arrays.asList(newAuthors);
     }
 }
