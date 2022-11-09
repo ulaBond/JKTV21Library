@@ -28,12 +28,12 @@ public class BasaManager {
         tx.commit();
     }  
 
-    public List<Book> loadBooks() {
+    public List<Book> loadBooks() { //вывод всех названий книг и авторов из БД
         List<Book> books = (List<Book>) em.createQuery("SELECT b FROM Book b").getResultList();
         return books;
     }
     
-    public List<Author> loadAuthors() {
+    public List<Author> loadAuthors() { //вывод всех авторов из БД
         List<Author> authors = (List<Author>) em.createQuery("SELECT a FROM Author a").getResultList();
         return authors;
     }
@@ -44,9 +44,34 @@ public class BasaManager {
             em.persist(book);
         }else{
             em.merge(book);
-        }
-        
+        }        
         tx.commit();
+    }
+    
+    public void saveAuthor(Author author) {
+        tx.begin();
+        if(author.getId() == null){
+            em.persist(author);
+        }else{
+            em.merge(author);
+        }        
+        tx.commit();
+    }
+
+    public Author getAuthor(int numberAuthor) {
+        try {
+            return em.find(Author.class, (long)numberAuthor); //int numberAuthor преобразовывем в long 
+        } catch (Exception e) {
+            return new Author();
+        }
+    }
+
+    Book getBook(int numberBook) {
+        try {
+            return em.find(Book.class, (long)numberBook); //int numberAuthor преобразовывем в long 
+        } catch (Exception e) {
+            return new Book();
+        }
     }
      
 }

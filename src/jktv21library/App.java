@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import managers.AuthorManager;
 import managers.BasaManager;
 import managers.BookManager;
 import managers.DataManager;
@@ -20,6 +21,7 @@ public class App {
     private final BookManager bookManager;
     private final ReaderManager readerManager;
     private final HistoryManager historyManager;//final - неизменяемые методы
+    private final AuthorManager authorManager;
     private final BasaManager basaManager;
     //private final DataManager dataManager;
     //private List<Book> books;
@@ -32,6 +34,7 @@ public class App {
         bookManager = new BookManager();
         readerManager = new ReaderManager();
         historyManager= new HistoryManager();
+        authorManager = new AuthorManager();
         basaManager= new BasaManager();
         //books = basaManager.loadBooks();
         //dataManager = new DataManager();
@@ -55,7 +58,9 @@ public class App {
             System.out.println("6 - список читателей.");
             System.out.println("7 - список histories");
             System.out.println("8 - изменить данные читателя.");
-            System.out.println("9 - редактирование книги.");
+            System.out.println("9 - редактирование названия книги.");
+            System.out.println("10 - редактирование авторов.");
+            System.out.println("11 - добавление новых записей об авторах.");
             System.out.println("Выберите номер функции: ");
             int task = scanner.nextInt();
             scanner.nextLine();
@@ -105,11 +110,19 @@ public class App {
                     //dataManager.saveReadersToFile(readers);
                     break;
                 case 9:
-                    System.out.println("9 - редактирование книги.");
+                    System.out.println("9 - редактирование названия книги.");
+                    basaManager.saveBook(bookManager.changeBookTitle());
                     //books = bookManager.changeBook(books); 
-                    book = bookManager.changeBook();
-                    basaManager.saveBook(bookManager.changeBook());
+                    //book = bookManager.changeBook();                    
                     //dataManager.saveBooksToFile(books);
+                    break;
+                case 10:
+                    System.out.println("10 - редактирование авторов.");
+                    bookManager.changeBookAuthors());
+                    break;
+                case 11:
+                    System.out.println("11 - добавление новых записей об авторах.");
+                    authorManager.saveBook();
                     break;
                 default:
                     System.out.println("Выберите номер функции из списка!");
@@ -117,11 +130,6 @@ public class App {
         }while(repeat);
         System.out.println("Chao!");
     }
-
-//    private void addBook(Book book){
-//        books = Arrays.copyOf(books, books.length+1);
-//        books[books.length-1] = book;
-//    }
     
     private void addReader(Reader reader){
         readers = Arrays.copyOf(readers, readers.length+1);

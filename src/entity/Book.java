@@ -24,7 +24,7 @@ public class Book implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)//в БД будет автоинкремент в поле Id
     private Long id;
     private String title;
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany()//cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}
     private List<Author> authors;
 
     public Book() {

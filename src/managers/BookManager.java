@@ -3,14 +3,19 @@ package managers;
 
 import entity.Author;
 import entity.Book;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class BookManager {
     private Scanner scanner;
+    private BasaManager basaManager;
+    private AuthorManager authorManager;
 
     public BookManager() {
         scanner = new Scanner(System.in);
+        basaManager = new BasaManager();
+        authorManager = new AuthorManager();
     }
     
     public Book createBook(){
@@ -26,12 +31,25 @@ public class BookManager {
         return book;
     }
     private Author createAuthor() {
-        Author author = new Author();
-        System.out.println("Введите имя автора: ");
-        author.setFirstname(scanner.nextLine());
-        System.out.println("Введите фамилию автора: ");
-        author.setLastname(scanner.nextLine());
-        return author;
+        System.out.println("Список авторов: ");
+        authorManager.printListAuthors();
+        System.out.println("Есть ли автор в списке (y/n)");
+        String isAuthor = scanner.nextLine();
+        if("y".equals(isAuthor)){
+            System.out.println("Выберите номер из списка авторов: ");
+            int numberAuthor = scanner.nextInt(); scanner.nextLine();
+            Author author = basaManager.getAuthor(numberAuthor);//выбираем из списка автора по id
+        //получаем объект из базы по id
+            return author;
+        }else{
+            Author newAuthor = new Author();
+            System.out.println("Введите имя автора: ");
+            newAuthor.setFirstname(scanner.nextLine());
+            System.out.println("Введите фамилию автора: ");
+            newAuthor.setLastname(scanner.nextLine());
+            basaManager.saveAuthor(newAuthor);
+            return newAuthor;
+        }
     }
     public void printListBooks(List<Book> books){
         System.out.println("************ Список книг *************");
@@ -149,7 +167,7 @@ public List<Book> changeBook(List<Book> books) {
             System.out.print("Изменить имя автора? (y/n)");
             String edit = scanner.nextLine();
             if(edit.equals("y")){
-                System.out.print("Введите новое имя атора: ");
+                System.out.print("Введите новое имя автора: ");
                 authors.get(i).setFirstname(scanner.nextLine());
             }    
             System.out.print("Изменить фамилию автора? (y/n)");
@@ -157,75 +175,117 @@ public List<Book> changeBook(List<Book> books) {
             if(edit.equals("y")){
                 System.out.print("Введите новую фамилию атора: ");
                 authors.get(i).setLastname(scanner.nextLine());
-            }    
+            } 
+            basaManager.saveAuthor(authors.get(i));
         }
         return authors;
     }
 
-    public Book changeBook() {
-        BasaManager basaManager = new BasaManager();
+    public void changeBookTitle() {        
         List<Book> listBooks = basaManager.loadBooks();
         printListBooks(listBooks);
         System.out.print("Выберите номер книги для редактирования: ");
         int numBookForEdit = scanner.nextInt();scanner.nextLine();
-        Book book = editBook(listBooks.get(numBookForEdit-1));
-        return book;
-    }
-        
-    public Book editBook(Book book) {
-    System.out.println("Название книги: "+book.getTitle());
+        Book book = listBooks.get(numBookForEdit-1);
+        System.out.println("Название книги: "+book.getTitle());
         System.out.println("Изменить название книги? (y/n)");
         String edit = scanner.nextLine();
         if(edit.equals("y")){
             System.out.print("Введите новое название книги: ");
             book.setTitle(scanner.nextLine());
         }
-        System.out.println("Авторов у книги "+book.getAuthors().size());
-        System.out.println("Изменить количество авторов? (y/n)");
-        edit = scanner.nextLine();
-        if(edit.equals("n")){
-            book.setAuthors(changeAuthorBook(book.getAuthors()));
-        }else{// Меняем количество авторов
-            System.out.print("Введите новое количество авторов: ");
-            int newCountAuthorsInBook = scanner.nextInt();
-            scanner.nextLine();
-         // количество авторов может быть больше или меньше.
-            if(newCountAuthorsInBook < book.getAuthors().size()){
-              //если меньше, выводим нумерованный список авторов и просим указать какого удалить
-               // вычисляем на сколько меньше 
-                int deltaAuthors = book.getAuthors().size() - newCountAuthorsInBook;
-                for (int n = 0; n < deltaAuthors; n++) {
-                    //удаляем лишних (deltaAuthors) авторов из книги
-                    int numberAuthorForDelete = deleteNumberAuthorBook(book.getAuthors());
-                    book.removeAuthor(numberAuthorForDelete);
-                }
-            }else{
-                for (int i = 0; i < newCountAuthorsInBook; i++) {
-                    //если счетчик больше количесвтва авторов
-                    if(i >= book.getAuthors().size()){
-                        //выводим список авторов из таблицы DB author
-                        //выбираем из списка автора по id
-                        //получаем объект из базы по id
-                        //добавляем его к авторам книги
-                        
-                        
-                        // добаляем нового автора в книгу
-                        Author newAuthor = new Author();
-                        System.out.print("Введите имя автора "+(i+1)+": ");
-                        newAuthor.setFirstname(scanner.nextLine());
-                        System.out.print("Введите фамилию атора "+(i+1)+": ");
-                        newAuthor.setLastname(scanner.nextLine());
-                        book.addAuthor(newAuthor);
-                    }
-                }
+        basaManager.saveBook(book);
+    }
+    
+//        System.out.println("Авторов у книги "+book.getAuthors().size());
+//        System.out.println("Изменить количество авторов? (y/n)");
+//        edit = scanner.nextLine();
+//        if(edit.equals("y")){
+//        // Меняем количество авторов
+//            System.out.print("Введите новое количество авторов: ");
+//            int newCountAuthorsInBook = scanner.nextInt();
+//            scanner.nextLine();
+//         // количество авторов может быть больше или меньше.
+//            if(newCountAuthorsInBook < book.getAuthors().size()){
+//              //если меньше, выводим нумерованный список авторов и просим указать какого удалить
+//               // вычисляем на сколько меньше 
+//                int deltaAuthors = book.getAuthors().size() - newCountAuthorsInBook;
+//                for (int n = 0; n < deltaAuthors; n++) {
+//                    //удаляем лишних (deltaAuthors) авторов из книги
+//                    int numberAuthorForDelete = deleteNumberAuthorBook(book.getAuthors());
+//                    book.removeAuthor(numberAuthorForDelete);
+//                }
+//            }else{
+//                for (int i = 0; i < newCountAuthorsInBook; i++) {
+//                    //если счетчик больше количесвтва авторов
+//                    if(i >= book.getAuthors().size()){
+//                        //выводим список авторов из таблицы DB author
+//                        System.out.println("Список авторов: ");
+//                        authorManager.printListAuthors();
+//                        System.out.println("Есть ли автор в списке (y/n)");
+//                        String isAuthor = scanner.nextLine();
+//                        if("y".equals(isAuthor)){
+//                            System.out.println("Выберите номер из списка авторов: ");
+//                            int numberAuthor = scanner.nextInt(); scanner.nextLine();
+//                            Author author = basaManager.getAuthor(numberAuthor);//выбираем из списка автора по id
+//                        //получаем объект из базы по id
+//                        book.addAuthor(author);//добавляем его к авторам книги
+//                        }else{
+//                            //иначе:
+//                            // добаляем нового автора в книгу
+//                            Author newAuthor = new Author();
+//                            System.out.print("Введите имя автора "+(i+1)+": ");
+//                            newAuthor.setFirstname(scanner.nextLine());
+//                            System.out.print("Введите фамилию атора "+(i+1)+": ");
+//                            newAuthor.setLastname(scanner.nextLine());
+//                            basaManager.saveAuthor(newAuthor);                            
+//                            book.addAuthor(newAuthor);
+//                        }
+//                    }else{
+//                        book.setAuthors(changeAuthorBook(book.getAuthors()));
+//                    }
+//                }
+//            }
+//        }
+//        System.out.println("Изменить существующих авторов? (y/n)");
+//        edit = scanner.nextLine();
+//        if(edit.equals("y")){// Меняем существующих авторов
+//            book.setAuthors(changeAuthorBook(book.getAuthors()));
+//        }
+//        return book;    
+//    }
+
+    public void changeBookAuthors() {  
+        /*
+        void - отсутствует return statement
+        выводим список книг, выбираем книгу,
+        выводим список авторов книги
+        Сколько авторов книги будет? введите новое количество - вводим
+            выводим список всех авторов
+                есть ли автор в списке? да/нет
+                    да: выбираем номера авторов из списка
+                    нет: переходим на новый кейс
+                                    
+        */
+        this.printListBooks(basaManager.loadBooks());
+        System.out.print("Выберите номер книги для редактирования: ");
+        int numberBook = scanner.nextInt();scanner.nextLine();
+        Book book = basaManager.getBook(numberBook);
+        book.setAuthors(new ArrayList<>());
+        System.out.println("Сколько авторов у книги: ");
+        int countAuthorInBook = scanner.nextInt();scanner.nextLine();
+        System.out.println("Список всех авторов: ");
+        authorManager.printListAuthors();
+        System.out.println("Есть ли авторы в списке? (y/n): ");
+        String isAuthors = scanner.nextLine();
+        if("y".equals(isAuthors)){
+            for (int i = 0; i < countAuthorInBook; i++) {
+                System.out.println("Выберите автора "+(i+1)+": ");
+                int numberAuthor = scanner.nextInt();scanner.nextLine();
+                book.addAuthor(basaManager.getAuthor(numberAuthor));
+                basaManager.saveBook(book);
             }
         }
-        System.out.println("Изменить существующих авторов? (y/n)");
-        edit = scanner.nextLine();
-        if(edit.equals("y")){// Меняем существующих авторов
-            book.setAuthors(changeAuthorBook(book.getAuthors()));
-        }
-        return book;    
-        }
+    }
 }
 
