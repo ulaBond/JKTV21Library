@@ -111,18 +111,26 @@ public class App {
                     break;
                 case 9:
                     System.out.println("9 - редактирование названия книги.");
-                    basaManager.saveBook(bookManager.changeBookTitle());
+                    bookManager.changeBookTitle();
                     //books = bookManager.changeBook(books); 
                     //book = bookManager.changeBook();                    
                     //dataManager.saveBooksToFile(books);
                     break;
                 case 10:
                     System.out.println("10 - редактирование авторов.");
-                    bookManager.changeBookAuthors());
+                    bookManager.changeBookAuthors();
                     break;
                 case 11:
                     System.out.println("11 - добавление новых записей об авторах.");
-                    authorManager.saveBook();
+                    authorManager.createAuthor();
+                    break;
+                case 12:
+                    System.out.println("Задача 12. Редактировать автора");
+                    authorManager.changeAuthor();
+                    break;
+                case 13:
+                    System.out.println("Задача 13. Список авторов");
+                    authorManager.printListAuthors();
                     break;
                 default:
                     System.out.println("Выберите номер функции из списка!");
