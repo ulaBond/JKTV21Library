@@ -17,18 +17,18 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-@Entity
 
+@Entity
 public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//в БД будет автоинкремент в поле Id
     private Long id;
     private String title;
     @OneToMany()//cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}
-    private List<Author> authors;
+    private List<Author> authors = new ArrayList<>();;
 
     public Book() {
-        authors = new ArrayList<>();
+ 
     }
     
     public Book(String title, List<Author> authors) {

@@ -3,12 +3,25 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
-/*@author pupil*/
+@Entity
 public class History  implements Serializable  {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @OneToOne()//cascade = {CascadeType.MERGE} - для связи с покупателем нужно MERGE
     private Reader reader;
-    private Book book;
+    @OneToOne(cascade = {CascadeType.MERGE})
+    private Book book;    
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date takeOnBook;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date returnBook;
 
     public History() {
@@ -20,7 +33,13 @@ public class History  implements Serializable  {
         this.takeOnBook = takeOnBook;
         this.returnBook = returnBook;
     }
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
     public Date getReturnBook() {
         return returnBook;
     }
@@ -61,5 +80,7 @@ public class History  implements Serializable  {
                 + ", takeOnBook=" + takeOnBook 
                 + ", returnBook=" + returnBook + '}';
     }
+
+
     
 }

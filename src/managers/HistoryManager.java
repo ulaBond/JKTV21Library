@@ -19,7 +19,7 @@ public class HistoryManager {
        readerManager = new ReaderManager();
        bookManager = new BookManager();
     }
-    public History takeOnBook(Reader[] readers, List<Book> books){
+    public History takeOnBook(List<Reader>readers, List<Book> books){
          //из списка читателей выбрать читателя
         //их списка книг выбрать книгу
         //инициировать поля History
@@ -35,16 +35,16 @@ public class HistoryManager {
         int numberBook = scanner.nextInt(); scanner.nextLine();
         History history = new History();
         history.setBook(books.get(numberBook - 1));
-        history.setReader(readers[numberReader - 1]);
+        history.setReader(readers.get(numberReader - 1));
         history.setTakeOnBook(new GregorianCalendar().getTime());
         return history;
     }
-    public void printListReadingBooks(History[] histories) {
+    public void printListReadingBooks(List<History> histories) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         System.out.println("************ Список выданных книг: **************");
         int kolRead = 0;
-        for (int i = 0; i < histories.length; i++) {
-            History history = histories[i];
+        for (int i = 0; i < histories.size(); i++) {
+            History history = histories.get(i);
             if(history.getReturnBook() == null){
                 System.out.printf("%d. %s. Vydana: %s  Chitaet: %s %s. Telefon: %s%n"
                         ,i+1
@@ -59,14 +59,14 @@ public class HistoryManager {
         System.out.println("Всего книг взято из библиотеки: "+kolRead);   
         }        
     }
-    public History[] returnBook(History[] histories){
+    public List<History> returnBook(List<History> histories){
         // vybrat nomer istorii c vydannoi knigoi iz spiska
         // propisat datu vozvrata v istoriju
         System.out.println("Список выданных книг: ");
         this.printListReadingBooks(histories);
         System.out.println("Выберите номер возвращаемой книги из списка: ");
         int numberHistory = scanner.nextInt(); scanner.nextLine();
-        histories[numberHistory - 1].setReturnBook(new GregorianCalendar().getTime());
+        histories.get(numberHistory - 1).setReturnBook(new GregorianCalendar().getTime());
         return histories;
     }    
 }

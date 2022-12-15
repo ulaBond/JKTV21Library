@@ -3,6 +3,8 @@ package managers;
 
 import entity.Author;
 import entity.Book;
+import entity.History;
+import entity.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -11,65 +13,85 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 /* */
-public class BasaManager {
-    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("JKTV21LibraryPU");//ссылка на файл Persistence для связи с БД
-    private final EntityManager em = emf.createEntityManager();//EntityManager 
-    private final EntityTransaction tx = em.getTransaction();
+public class BasaManager implements SaveManagerInterface {
+    private final EntityManagerFactory emf;
+    private final EntityManager em; 
+    //private final EntityTransaction tx = em.getTransaction();
 
-    public List<Book> loadBooks() { //вывод всех названий книг и авторов из БД
-        List<Book> books = (List<Book>) em.createQuery("SELECT b FROM Book b").getResultList();
-        return books;
+    public BasaManager(){
+        emf = Persistence.createEntityManagerFactory("JKTV21LibraryPU");//ссылка на файл Persistence для связи с БД
+        em = emf.createEntityManager();
     }
-    public void saveBooks(Book book) {
-        tx.begin();//начинается транзакция с БД
-        if(book.getId() == null){
-            em.persist(book);
-        }else{
-            em.merge(book);//обновление БД
-        }                
-        tx.commit();//завершается транзакция с БД
+    
+    
+    @Override
+    public void saveBooks(List<Book> books) {
+        em.getTransaction().begin();
+        for (int i = 0; i < books.size(); i++) {
+            Book book = books.get(i);
+            for (int j = 0; j < book.getAuthors().size(); j++) {
+                Author author = book.getAuthors().get(j);
+                if(author.getId() == null){
+                    em.persist(author);                    
+                }else{
+                    em.merge(author);
+                }                
+            }
+            if(book.getId() == null){
+                em.persist(book);
+            }else{
+                em.merge(book);
+            }
+        }
+        em.getTransaction().commit();
     }        
         
-    
-    public List<Author> loadAuthors() { //вывод всех авторов из БД
-        List<Author> authors = (List<Author>) em.createQuery("SELECT a FROM Author a").getResultList();
-        return authors;
-    }
-
-    public void saveBook(Book book) {
-        tx.begin();
-        if(book.getId() == null){
-            em.persist(book);
-        }else{
-            em.merge(book);
-        }        
-        tx.commit();
+    @Override
+    public List<Book> loadBooks() { //вывод всех названий книг и авторов из БД
+        //List<Book> books = (List<Book>) em.createQuery("SELECT b FROM Book b").getResultList();
+        return em.createQuery("SELECT b FROM Book b")
+                .getResultList();
     }
     
-    public void saveAuthor(Author author) {
-        tx.begin();
-        if(author.getId() == null){
-            em.persist(author);
-        }else{
-            em.merge(author);
-        }        
-        tx.commit();
+    @Override
+    public void saveReaders(List<Reader> readers) {
+        em.getTransaction().begin();
+        for (int i = 0; i < readers.size(); i++) {
+            Reader reader = readers.get(i);
+            if(reader.getId() == null){
+                    em.persist(readers);                    
+                }else{
+                    em.merge(readers);
+                }                
+            }
+        em.getTransaction().commit();
+        }     
+        
+    @Override
+    public List<Reader> loadReaders() { //вывод всех названий книг и авторов из БД
+        return em.createQuery("SELECT r FROM Book r")
+                .getResultList();
     }
-
-    public Author getAuthor(int numberAuthor) {
-        try {
-            return em.find(Author.class, (long)numberAuthor); //int numberAuthor преобразовывем в long 
-        } catch (Exception e) {
-            return new Author();
-        }
-    }
-
-    Book getBook(int numberBook) {
-        try {
-            return em.find(Book.class, (long)numberBook); //int numberAuthor преобразовывем в long 
-        } catch (Exception e) {
-            return new Book();
-        }
+    
+    @Override
+    public void saveHistories(List<History> histories) {
+        em.getTransaction().begin();
+        for (int i = 0; i < histories.size(); i++) {
+            History history = histories.get(i);
+            
+                if(history.getId() == null){
+                    em.persist(history);                    
+                }else{
+                    em.merge(history);
+                }                
+            }            
+        em.getTransaction().commit();
+    }        
+        
+    @Override
+    public List<History> loadHistories() { //вывод всех названий книг и авторов из БД
+        return em.createQuery("SELECT h FROM Book h")
+                .getResultList();
     }
      
 }

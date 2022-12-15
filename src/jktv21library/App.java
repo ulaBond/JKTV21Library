@@ -5,44 +5,41 @@ import entity.Author;
 import entity.Book;
 import entity.History;
 import entity.Reader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import managers.AuthorManager;
 import managers.BasaManager;
 import managers.BookManager;
 import managers.DataManager;
 import managers.HistoryManager;
 import managers.ReaderManager;
+import managers.SaveManagerInterface;
 
 public class App {
+    public static boolean saveToBase;//переменная имеет 2 значения: true - сохранение в базу,
+    //false - сохранение в файл
     private final Scanner scanner;
     private final BookManager bookManager;
     private final ReaderManager readerManager;
     private final HistoryManager historyManager;//final - неизменяемые методы
-    private final AuthorManager authorManager;
-    private final BasaManager basaManager;
-    //private final DataManager dataManager;
-    //private List<Book> books;
-    private Reader[] readers;
-    private History[] histories;
+    private final SaveManagerInterface saveManager;
+    private List<Book> books;
+    private List<Reader> readers;
+    private List<History> histories;
 
     public App() {
-        //books = new ArrayList<>();
         scanner = new Scanner(System.in);
         bookManager = new BookManager();
         readerManager = new ReaderManager();
         historyManager= new HistoryManager();
-        authorManager = new AuthorManager();
-        basaManager= new BasaManager();
-        //books = basaManager.loadBooks();
-        //dataManager = new DataManager();
-        //books = dataManager.loadBooksFromFile();  
-        //readers = dataManager.loadReadersFromFile();
-        //histories = dataManager.loadHistoriesFromFile();
-        //testAddBook();
-        //testAddReader();
+        if(App.saveToBase){
+            saveManager = new DataManager();
+        }else{
+            saveManager = new BasaManager();
+        }
+        books = saveManager.loadBooks();
+        readers = saveManager.loadReaders();
+        histories = saveManager.loadHistories();
     }   
     
     public void run(){
@@ -71,20 +68,17 @@ public class App {
                     break;
                 case 1:
                     System.out.println("1 - добавить книгу.");
-                    Book book = bookManager.createBook();
-                    basaManager.saveBook(book);
-                    //books.add(bookManager.createBook());
-                    //basaManager.saveBooks(books);
-                    //dataManager.saveBooksToFile(books);
+                    books.add(bookManager.createBook());
+                    saveManager.saveBooks(books);
                     break;
                 case 2:
                     System.out.println("2 - добавить читателя.");
-                    addReader(readerManager.createReader());
-                    //dataManager.saveReadersToFile(readers);
+                    readers.add(readerManager.createReader());
+                    saveManager.saveReaders(readers);
                     break;
                 case 3:
                     System.out.println("3 - добавить запись о взятии книги.");
-                    addHistories(historyManager.takeOnBook(readers,basaManager.loadBooks()));
+                    histories.add(historyManager.takeOnBook(readers,books));
                     //dataManager.saveHistoriesToFile(histories);
                     break;
                 case 4:
@@ -94,7 +88,7 @@ public class App {
                     break;
                 case 5:
                     System.out.println("5 - список книг.");
-                    bookManager.printListBooks(basaManager.loadBooks());
+                    bookManager.printListBooks(books);
                     break;
                 case 6:
                     System.out.println("6 - список читателей.");
@@ -111,42 +105,15 @@ public class App {
                     break;
                 case 9:
                     System.out.println("9 - редактирование названия книги.");
-                    bookManager.changeBookTitle();
-                    //books = bookManager.changeBook(books); 
-                    //book = bookManager.changeBook();                    
-                    //dataManager.saveBooksToFile(books);
+                    books = bookManager.changeBook(books); 
+                    saveManager.saveBooks(books);
                     break;
-                case 10:
-                    System.out.println("10 - редактирование авторов.");
-                    bookManager.changeBookAuthors();
-                    break;
-                case 11:
-                    System.out.println("11 - добавление новых записей об авторах.");
-                    authorManager.createAuthor();
-                    break;
-                case 12:
-                    System.out.println("Задача 12. Редактировать автора");
-                    authorManager.changeAuthor();
-                    break;
-                case 13:
-                    System.out.println("Задача 13. Список авторов");
-                    authorManager.printListAuthors();
-                    break;
+                
                 default:
                     System.out.println("Выберите номер функции из списка!");
             }
         }while(repeat);
         System.out.println("Chao!");
-    }
-    
-    private void addReader(Reader reader){
-        readers = Arrays.copyOf(readers, readers.length+1);
-        readers[readers.length-1] = reader;
-    }
-    
-    private void addHistories(History history){
-        histories = Arrays.copyOf(histories, histories.length+1);
-        histories[histories.length-1] = history;
     }
     
 }
