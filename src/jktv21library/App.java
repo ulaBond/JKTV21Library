@@ -55,9 +55,7 @@ public class App {
             System.out.println("6 - список читателей.");
             System.out.println("7 - список histories");
             System.out.println("8 - изменить данные читателя.");
-            System.out.println("9 - редактирование названия книги.");
-            System.out.println("10 - редактирование авторов.");
-            System.out.println("11 - добавление новых записей об авторах.");
+            System.out.println("9 - редактирование книги.");
             System.out.println("Выберите номер функции: ");
             int task = scanner.nextInt();
             scanner.nextLine();
@@ -79,12 +77,12 @@ public class App {
                 case 3:
                     System.out.println("3 - добавить запись о взятии книги.");
                     histories.add(historyManager.takeOnBook(readers,books));
-                    //dataManager.saveHistoriesToFile(histories);
+                    saveManager.saveHistories(histories);
                     break;
                 case 4:
                     System.out.println("4 - добавить запись о возврате книги.");
                     histories = historyManager.returnBook(histories);
-                    //dataManager.saveHistoriesToFile(histories);
+                    saveManager.saveHistories(histories);
                     break;
                 case 5:
                     System.out.println("5 - список книг.");

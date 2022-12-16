@@ -1,7 +1,6 @@
 /* */
 package managers;
 
-import com.sun.jndi.toolkit.url.Uri;
 import entity.Book;
 import entity.History;
 import entity.Reader;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jktv21library.App;
+//import managers.interfaces.SaveManagerInterface;
 
 public class DataManager implements SaveManagerInterface {
     private final String FILENAME_BOOKS = "books/MyBooks";
@@ -24,7 +23,7 @@ public class DataManager implements SaveManagerInterface {
     private final String FILENAME_HISTORIES = "books/MyHistorys";
     private final File file;
     public DataManager() {
-        file = new File("files");        
+        file = new File("books");        
         file.mkdir();
     } 
     

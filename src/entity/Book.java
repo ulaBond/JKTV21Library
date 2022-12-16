@@ -5,18 +5,11 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Book implements Serializable {
@@ -64,13 +57,11 @@ public class Book implements Serializable {
     public String toString() {
         return "Book{"
                 + "title=" + title
-               // + ", autors=" + Arrays.toString(authors) 
+                + ", autors=" + Arrays.toString(authors.toArray()) 
                 + '}';
     }
 
     public void addAuthor(Author author) {
-        //Author[] newAuthors = Arrays.copyOf(authors, authors.length + 1);
-        //newAuthors [newAuthors.length-1] = author;
         this.authors.add(author);
     }
     public void removeAuthor(int numberOfAuthor){

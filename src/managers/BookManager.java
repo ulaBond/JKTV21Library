@@ -27,10 +27,8 @@ public class BookManager {
     }
     private Author createAuthor(int numberAuthor) {
         Author author = new Author();
-        System.out.println("Введите имя: ");
         System.out.println("Введите имя "+numberAuthor+" автора: ");
         author.setFirstname(scanner.nextLine());
-        System.out.println("Введите фамилию: ");
         System.out.println("Введите фамилию "+numberAuthor+" автора: ");
         author.setLastname(scanner.nextLine());
         return author;

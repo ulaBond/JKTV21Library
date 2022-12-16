@@ -63,9 +63,5 @@ public class Reader  implements Serializable  {
                 + ", lastname=" + lastname 
                 + ", phone=" + phone
                 +'}';
-    }
-
-    
-    
-    
+    }    
 }

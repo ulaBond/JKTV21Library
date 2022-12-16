@@ -5,24 +5,21 @@ import entity.Author;
 import entity.Book;
 import entity.History;
 import entity.Reader;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+//import managers.interfaces.SaveManagerInterface;
 
 /* */
 public class BasaManager implements SaveManagerInterface {
     private final EntityManagerFactory emf;
     private final EntityManager em; 
-    //private final EntityTransaction tx = em.getTransaction();
 
     public BasaManager(){
         emf = Persistence.createEntityManagerFactory("JKTV21LibraryPU");//ссылка на файл Persistence для связи с БД
         em = emf.createEntityManager();
-    }
-    
+    }    
     
     @Override
     public void saveBooks(List<Book> books) {
@@ -48,7 +45,6 @@ public class BasaManager implements SaveManagerInterface {
         
     @Override
     public List<Book> loadBooks() { //вывод всех названий книг и авторов из БД
-        //List<Book> books = (List<Book>) em.createQuery("SELECT b FROM Book b").getResultList();
         return em.createQuery("SELECT b FROM Book b")
                 .getResultList();
     }
@@ -77,8 +73,7 @@ public class BasaManager implements SaveManagerInterface {
     public void saveHistories(List<History> histories) {
         em.getTransaction().begin();
         for (int i = 0; i < histories.size(); i++) {
-            History history = histories.get(i);
-            
+            History history = histories.get(i);            
                 if(history.getId() == null){
                     em.persist(history);                    
                 }else{
@@ -92,6 +87,5 @@ public class BasaManager implements SaveManagerInterface {
     public List<History> loadHistories() { //вывод всех названий книг и авторов из БД
         return em.createQuery("SELECT h FROM Book h")
                 .getResultList();
-    }
-     
+    }     
 }

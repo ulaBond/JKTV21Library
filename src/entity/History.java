@@ -79,8 +79,5 @@ public class History  implements Serializable  {
                 + ", book=" + book 
                 + ", takeOnBook=" + takeOnBook 
                 + ", returnBook=" + returnBook + '}';
-    }
-
-
-    
+    }    
 }
